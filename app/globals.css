@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* 数値入力のスピナーは右寄せ表示の邪魔になるため控えめに */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  opacity: 0.4;
+}
+
+/* ===== 印刷（PDF出力）用レイアウト ===== */
+.print-only {
+  display: none;
+}
+
+@media print {
+  @page {
+    margin: 12mm;
+    size: A4 portrait;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .print-grid {
+    display: block !important;
+  }
+  .print-results {
+    position: static !important;
+    gap: 14px !important;
+  }
+  .print-results > div {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .print-table-wrap {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  .print-header {
+    box-shadow: none !important;
+  }
+}
