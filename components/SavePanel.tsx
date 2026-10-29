@@ -69,10 +69,7 @@ export function SavePanel({
   };
 
   return (
-    <div className="rounded-lg border bg-white overflow-hidden no-print" style={{ borderColor: "#e2e8f0" }}>
-      <div className="px-4 py-2.5 font-bold text-white text-sm flex items-center gap-2" style={{ background: NAVY }}>
-        💾 プランの保存・読込
-      </div>
+    <div className="bg-white no-print">
       <div className="p-4 grid gap-3">
         <div className="flex gap-2">
           <input

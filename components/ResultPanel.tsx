@@ -15,7 +15,7 @@ import {
 } from "recharts";
 import type { MCYear, Params } from "@/lib/types";
 import { yen } from "@/lib/format";
-import { NAVY, GOLD, LIGHTGOLD, BLUE, RED } from "@/lib/brand";
+import { NAVY, GOLD, LIGHTGOLD, CREAM, BLUE, RED, LINE_GREEN, LINE_URL } from "@/lib/brand";
 
 export function ResultPanel({
   result,
@@ -54,38 +54,7 @@ export function ResultPanel({
   const summaryBg = summary.depAge ? RED : summary.belowTarget ? "#b8860b" : NAVY;
 
   return (
-    <div className="grid gap-4 lg:sticky lg:top-4 self-start print-results">
-      {/* PDF設定（画面のみ） */}
-      <div className="no-print rounded-lg bg-white p-3 border grid gap-2" style={{ borderColor: "#e2e8f0" }}>
-        <div className="grid grid-cols-2 gap-2">
-          <label className="flex flex-col gap-1 text-sm">
-            <span style={{ color: NAVY }} className="font-medium">お客様名（レポート用）</span>
-            <input
-              type="text"
-              value={clientName}
-              placeholder="例：田中 太郎"
-              onChange={(e) => setClientName(e.target.value)}
-              className="rounded border px-2 py-1.5 text-sm"
-              style={{ borderColor: "#cbd5e1" }}
-            />
-          </label>
-          <label className="flex flex-col gap-1 text-sm">
-            <span style={{ color: NAVY }} className="font-medium">作成日</span>
-            <input
-              type="text"
-              value={consultDate}
-              onChange={(e) => setConsultDate(e.target.value)}
-              className="rounded border px-2 py-1.5 text-sm text-right"
-              style={{ borderColor: "#cbd5e1" }}
-            />
-          </label>
-        </div>
-        <button onClick={onExportPDF} className="w-full rounded-lg py-2.5 font-bold text-white shadow" style={{ background: NAVY }}>
-          📄 PDF出力（印刷ダイアログ → PDFとして保存）
-        </button>
-        <p className="text-xs text-slate-400">※入力フォームは印刷されず、結果のみ出力されます。</p>
-      </div>
-
+    <div className="grid gap-4 lg:sticky lg:top-4 self-start print-results order-1 lg:order-2">
       {/* 印刷用ヘッダー（印刷のみ） */}
       <div className="print-only print-header" style={{ borderBottom: `3px solid ${GOLD}`, paddingBottom: 10, marginBottom: 4 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -169,6 +138,32 @@ export function ResultPanel({
         </ResponsiveContainer>
       </div>
 
+      {/* 有料レポートへの導線（画面のみ） */}
+      <div className="no-print rounded-lg overflow-hidden border" style={{ borderColor: GOLD }}>
+        <div className="px-4 py-2 text-xs font-bold tracking-wider" style={{ background: NAVY, color: LIGHTGOLD }}>
+          この先を、もう少し正確に
+        </div>
+        <div className="p-4 grid gap-3" style={{ background: CREAM }}>
+          <p className="text-sm" style={{ color: NAVY, lineHeight: 1.75 }}>
+            この試算は、税金と社会保険料を簡略化しています。退職の翌年に住民税と国民健康保険料がまとめて来ること、
+            どの口座から先に取り崩すかで手取りが変わること、iDeCo・企業型DCを一時金と年金のどちらで受け取るか。
+            このあたりは、実際の金額を大きく動かします。
+          </p>
+          <p className="text-sm" style={{ color: NAVY, lineHeight: 1.75 }}>
+            そこまで織り込んだ個別レポートもご用意しています。ご興味があれば、LINEから「レポート」とお送りください。
+          </p>
+          <a
+            href={LINE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-lg py-2.5 font-bold text-sm"
+            style={{ background: LINE_GREEN, color: "#fff" }}
+          >
+            LINEでレポートについて聞く ▶
+          </a>
+        </div>
+      </div>
+
       <button
         onClick={() => setShowTable(!showTable)}
         className="text-sm rounded px-3 py-2 font-medium border no-print"
@@ -201,6 +196,43 @@ export function ResultPanel({
           </table>
         </div>
       )}
+
+      {/* PDF設定（画面のみ・折りたたみ） */}
+      <details className="no-print rounded-lg bg-white border overflow-hidden" style={{ borderColor: "#e2e8f0" }}>
+        <summary className="cursor-pointer select-none px-4 py-2.5 text-sm font-bold" style={{ color: NAVY }}>
+          📄 この結果をPDFで保存する
+        </summary>
+        <div className="p-3 grid gap-2 border-t" style={{ borderColor: "#e2e8f0" }}>
+          <div className="grid grid-cols-2 gap-2">
+            <label className="flex flex-col gap-1 text-sm">
+              <span style={{ color: NAVY }} className="font-medium">お名前（任意）</span>
+              <input
+                type="text"
+                value={clientName}
+                placeholder="例：田中 太郎"
+                onChange={(e) => setClientName(e.target.value)}
+                className="rounded border px-2 py-1.5 text-sm"
+                style={{ borderColor: "#cbd5e1" }}
+              />
+            </label>
+            <label className="flex flex-col gap-1 text-sm">
+              <span style={{ color: NAVY }} className="font-medium">作成日</span>
+              <input
+                type="text"
+                value={consultDate}
+                onChange={(e) => setConsultDate(e.target.value)}
+                className="rounded border px-2 py-1.5 text-sm text-right"
+                style={{ borderColor: "#cbd5e1" }}
+              />
+            </label>
+          </div>
+          <p className="text-xs text-slate-400 -mt-0.5">※お名前はPDFの表紙に印刷されます。入力しなくても出力できます。</p>
+          <button onClick={onExportPDF} className="w-full rounded-lg py-2.5 font-bold text-white shadow" style={{ background: NAVY }}>
+            📄 PDF出力（印刷ダイアログ → PDFとして保存）
+          </button>
+          <p className="text-xs text-slate-400">※入力フォームは印刷されず、結果のみ出力されます。</p>
+        </div>
+      </details>
     </div>
   );
 }

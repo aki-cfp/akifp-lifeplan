@@ -51,10 +51,19 @@ export default function Page() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2 print-grid">
-          {/* 入力（保存パネル＋6セクション） */}
-          <div className="grid gap-3 no-print">
-            <SavePanel params={p} onLoad={loadPlan} />
+          {/* 入力（6セクション＋保存は折りたたみ）。
+              スマホでは初期値の計算済みグラフを先に見せたいので order を入れ替える。 */}
+          <div className="grid gap-3 no-print order-2 lg:order-1">
             <InputForm p={p} setP={setP} onRun={run} />
+
+            <details className="rounded-lg border bg-white overflow-hidden" style={{ borderColor: "#e2e8f0" }}>
+              <summary className="cursor-pointer select-none px-4 py-2.5 text-sm font-bold" style={{ color: NAVY }}>
+                💾 プランの保存・読込（面談・再計算用）
+              </summary>
+              <div className="border-t" style={{ borderColor: "#e2e8f0" }}>
+                <SavePanel params={p} onLoad={loadPlan} />
+              </div>
+            </details>
           </div>
 
           {/* 結果 */}
@@ -71,7 +80,7 @@ export default function Page() {
               onExportPDF={exportPDF}
             />
           ) : (
-            <div className="rounded-lg bg-white p-8 border text-center text-slate-400" style={{ borderColor: "#e2e8f0" }}>
+            <div className="rounded-lg bg-white p-8 border text-center text-slate-400 order-1 lg:order-2" style={{ borderColor: "#e2e8f0" }}>
               計算中…
             </div>
           )}

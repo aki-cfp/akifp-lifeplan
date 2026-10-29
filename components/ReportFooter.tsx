@@ -1,4 +1,4 @@
-import { NAVY, GOLD, LIGHTGOLD, LINE_GREEN, LINE_URL_DISPLAY } from "@/lib/brand";
+import { NAVY, GOLD, LIGHTGOLD, LINE_GREEN, LINE_URL, LINE_URL_DISPLAY } from "@/lib/brand";
 import { QrCode } from "./QrCode";
 
 /** 免責・出典＋屋号・LINE誘導フッター（画面・印刷の両方に表示）。 */
@@ -32,12 +32,15 @@ export function ReportFooter() {
               <br />
               家計・教育費・老後資金・資産運用のご相談は、LINE公式アカウントからお気軽にどうぞ。
             </p>
-            <div
+            <a
+              href={LINE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 mt-3 rounded px-3 py-1.5 font-bold text-sm"
               style={{ background: LINE_GREEN, color: "#fff" }}
             >
               友だち追加 ▶ {LINE_URL_DISPLAY}
-            </div>
+            </a>
           </div>
           <div className="p-4 flex flex-col items-center justify-center gap-2" style={{ background: "#FBF6E9" }}>
             <QrCode size={132} />
